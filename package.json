@@ -1,0 +1,32 @@
+{
+  "name": "shake_game",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack-dev-server --mode development --open",
+    "start": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArthurAbd/shake_game.git"
+  },
+  "author": "Artur Abdrakhmanov",
+  "license": "ISC",
+  "homepage": "https://github.com/ArthurAbd/shake_game#readme",
+  "bugs": {
+    "url": "https://github.com/ArthurAbd/shake_game/issues"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
+    "babel-loader": "^8.0.5",
+    "css-loader": "^2.1.0",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.9",
+    "webpack-dev-server": "^3.1.14"
+  }
+}
