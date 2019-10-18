@@ -1,54 +1,61 @@
 import {field} from './gameField';
+import {shake} from './shake';
 import drawing from './drawing';
 import coordGenerator from './coordGenerator';
 
-const xStepField = 50;
-const yStepField = 25;
+const xStepField = 20;
+const yStepField = 15;
 field.getCanvasField(xStepField, yStepField);
 
 const shakeCanvas = document.getElementById('game');
 const ctx = shakeCanvas.getContext('2d');
 
-drawing(ctx, 'add', 60, 60);
-setTimeout(() => {
-    drawing(ctx, 'delete', 60, 60);
-}, 2000, ctx);
-drawing(ctx, 'add', 120, 60);
-
-const shakePoints = [
-    {x: 6, y: 6},
-    {x: 5, y: 5}
-];
 
 const runShake = () => {
-    const firstShakePoint = shakePoints[0];
-    // const newPoint = {x: firstShakePoint.x + 1, y: firstShakePoint.y + 0};
-    const newPoint = nextStepPoint(firstShakePoint, xStepField, yStepField);
+    const firstPoint = Object.assign({}, shake.getFirstPoint());
+    const newPoint = nextStepPointGenerator(firstPoint, xStepField, yStepField, shake.movDirection);
     const coordAdd = coordGenerator(newPoint);
     drawing(ctx, 'add', coordAdd);
-    shakePoints.unshift(newPoint);
+    shake.setNewPoint(firstPoint);
     
-    const endShakePoint = shakePoints.pop();
+    const endShakePoint = shake.getEndPoint();
     const coordRemove = coordGenerator(endShakePoint);
     drawing(ctx, 'delete', coordRemove);
 }
 setInterval(runShake, 50);
 
-const nextStepPoint = (lastStepPoint, xStepField, yStepField) => {
-    const nextX = (lastStepPoint.x + 1 < xStepField) ? lastStepPoint.x + 1: 0;
-    const nextY = (lastStepPoint.y + 0 < yStepField) ? lastStepPoint.y + 0: 0;
-    return {x: nextX, y: nextY};
+const nextStepPointGenerator = (lastStepPoint, xStepField, yStepField, movDirection) => {
+    const directions = {
+        "ArrowRight": () => {
+            lastStepPoint.x = (lastStepPoint.x + 1 < xStepField) ? lastStepPoint.x + 1 : 0;
+            return lastStepPoint;
+        },
+        "ArrowLeft": () => {
+            lastStepPoint.x = (lastStepPoint.x > 0) ? lastStepPoint.x - 1 : xStepField - 1;
+            return lastStepPoint;
+        },
+        "ArrowDown": () => {
+            lastStepPoint.y = (lastStepPoint.y + 1 < yStepField) ? lastStepPoint.y + 1 : 0;
+            return lastStepPoint;
+        },
+        "ArrowUp": () => {
+            lastStepPoint.y = (lastStepPoint.y > 0) ? lastStepPoint.y - 1 : yStepField - 1;
+            return lastStepPoint;
+        },
+    }
+    const nextPoint = directions[movDirection]();
+    return nextPoint;
 }
 
-const movDirection = "down";
-    document.addEventListener('keydown', (event, movDirection) => {
-        const keyFunc = {
-            "ArrowRight": () => (movDirection === "down") ? console.log('right') : null,
-            "ArrowLeft": () => console.log('ArrowLeft'),
-            "ArrowUp": () => console.log('ArrowUp'),
-            "ArrowDown": () => console.log('ArrowDown'),
-        }
-        keyFunc[event.code]();
-    });
+document.addEventListener('keydown', (event) => {
+    const accessKeyX = ["ArrowRight", "ArrowLeft"];
+    const accessKeyY = ["ArrowUp", "ArrowDown"];
+    if (accessKeyX.includes(shake.movDirection) && accessKeyY.includes(event.code)) {
+        shake.movDirection = event.code;
+    }
+    if (accessKeyY.includes(shake.movDirection) && accessKeyX.includes(event.code)) {
+        shake.movDirection = event.code;
+    }
+});
 
 

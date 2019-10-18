@@ -1,4 +1,3 @@
-
 export const field = {
     step: 30,
     getCanvasField(xStep = 40, yStep = 20) {
