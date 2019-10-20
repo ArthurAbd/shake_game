@@ -4,6 +4,8 @@ import coordGenerator from './coordGenerator';
 import drawing from './drawing';
 
 export const shake = {
+    keyIsActive: true,
+    speedShake: 30,
     shakePoints: [
         {x: 7, y: 6},
         {x: 6, y: 6},
@@ -20,6 +22,7 @@ export const shake = {
             target.renderTarget();
         }
         this.shakePoints.unshift({x: newPoint.x, y: newPoint.y});
+        this.keyIsActive = true;
     },
     getEndPoint() {
         return this.shakePoints.pop();
@@ -29,7 +32,7 @@ export const shake = {
             (acc, point) => (point.x === targetPoint.x && point.y === targetPoint.y) ? acc += 1 : acc, 0)
     },
     runShake() {
-        const timer = setTimeout(shake.runShake, 20);
+        const timer = setTimeout(shake.runShake, shake.speedShake);
         const firstPoint = Object.assign({}, shake.getFirstPoint());
         const newPoint = shake.nextStepPointGenerator(firstPoint, field.getStepField());
         if (shake.isShake(newPoint)) {
