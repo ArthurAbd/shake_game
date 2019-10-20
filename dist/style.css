@@ -1,0 +1,22 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.modal {
+    text-align: center;
+    position: absolute;
+    font-size: 40px;
+}
+.btn {
+    color: #fff;
+    background: #d44b38;
+    padding: 30px 50px;
+  } 
+.btn:hover { background: #e85f4c; }
+.btn:active { background: #980f00; }

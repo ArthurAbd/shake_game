@@ -2,10 +2,11 @@ import {target} from './target';
 import {field} from './gameField';
 import coordGenerator from './coordGenerator';
 import drawing from './drawing';
+import {endGame} from './index';
 
 export const shake = {
     keyIsActive: true,
-    speedShake: 30,
+    speedShake: 200,
     shakePoints: [
         {x: 7, y: 6},
         {x: 6, y: 6},
@@ -17,6 +18,8 @@ export const shake = {
     },
     setNewPoint(newPoint) {
         if (target.isTarget(newPoint)) {
+            const rate = 0.95;
+            shake.speedShake *= rate;
             const newTailPoint = this.shakePoints.slice().pop()
             this.shakePoints.push(newTailPoint);
             target.renderTarget();
@@ -37,6 +40,7 @@ export const shake = {
         const newPoint = shake.nextStepPointGenerator(firstPoint, field.getStepField());
         if (shake.isShake(newPoint)) {
             clearTimeout(timer);
+            endGame(shake.shakePoints.length - 3);
         }
         const coordAdd = coordGenerator(newPoint);
         drawing('add', coordAdd);

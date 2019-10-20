@@ -7,8 +7,8 @@ export const field = {
     getCanvasField() {
         const width = document.documentElement.clientWidth;
         const height = document.documentElement.clientHeight;
-        this.stepField.x = Math.floor(width / this.step - 1);
-        this.stepField.y = Math.floor(height / this.step - 1);
+        this.stepField.x = Math.floor(width / this.step);
+        this.stepField.y = Math.floor(height / this.step);
         document.getElementById('game').setAttribute("width", this.step * this.stepField.x);
         document.getElementById('game').setAttribute("height", this.step * this.stepField.y);
         console.log(width, this.stepField.x);
