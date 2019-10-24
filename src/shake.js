@@ -35,7 +35,7 @@ export const shake = {
             (acc, point) => (point.x === targetPoint.x && point.y === targetPoint.y) ? acc += 1 : acc, 0)
     },
     runShake() {
-        const timer = setTimeout(shake.runShake, shake.speedShake);
+        const timer = setTimeout(this.runShake.bind(this), this.speedShake);
         const firstPoint = Object.assign({}, shake.getFirstPoint());
         const newPoint = shake.nextStepPointGenerator(firstPoint, field.getStepField());
         if (shake.isShake(newPoint)) {
